@@ -1,0 +1,161 @@
+{
+  "csv_files": [
+    "train.csv.gz",
+    "test.csv.gz"
+  ],
+  "transactions": 1048575,
+  "states": 51,
+  "verification": "both SQL queries match independent CSV reference",
+  "clickhouse_version": "25.3.6.56",
+  "benchmark": {
+    "baseline": {
+      "client_median_ms": 30.40562499995758,
+      "client_runs_ms": [
+        30.2757910001219,
+        33.62037500005499,
+        35.57408300002862,
+        30.40562499995758,
+        29.422291999935624
+      ],
+      "server_runs": [
+        {
+          "query_duration_ms": "29",
+          "read_rows": "1048575",
+          "read_bytes": "87031725",
+          "memory_usage": "4354081"
+        },
+        {
+          "query_duration_ms": "32",
+          "read_rows": "1048575",
+          "read_bytes": "87031725",
+          "memory_usage": "4302130"
+        },
+        {
+          "query_duration_ms": "34",
+          "read_rows": "1048575",
+          "read_bytes": "87031725",
+          "memory_usage": "4348738"
+        },
+        {
+          "query_duration_ms": "29",
+          "read_rows": "1048575",
+          "read_bytes": "87031725",
+          "memory_usage": "4534129"
+        },
+        {
+          "query_duration_ms": "28",
+          "read_rows": "1048575",
+          "read_bytes": "87031725",
+          "memory_usage": "4477897"
+        }
+      ]
+    },
+    "optimized": {
+      "client_median_ms": 2.011040999832403,
+      "client_runs_ms": [
+        2.220709000084753,
+        2.140374999953565,
+        2.011040999832403,
+        1.8287909999799012,
+        1.940915999966819
+      ],
+      "server_runs": [
+        {
+          "query_duration_ms": "1",
+          "read_rows": "51",
+          "read_bytes": "7557",
+          "memory_usage": "4239090"
+        },
+        {
+          "query_duration_ms": "1",
+          "read_rows": "51",
+          "read_bytes": "7557",
+          "memory_usage": "4237890"
+        },
+        {
+          "query_duration_ms": "1",
+          "read_rows": "51",
+          "read_bytes": "7557",
+          "memory_usage": "4244098"
+        },
+        {
+          "query_duration_ms": "1",
+          "read_rows": "51",
+          "read_bytes": "7557",
+          "memory_usage": "4233298"
+        },
+        {
+          "query_duration_ms": "1",
+          "read_rows": "51",
+          "read_bytes": "7557",
+          "memory_usage": "4238450"
+        }
+      ]
+    },
+    "unoptimized_storage": {
+      "client_median_ms": 31.747916000085752,
+      "client_runs_ms": [
+        29.79658300000665,
+        32.20395800008191,
+        32.31733300003725,
+        31.372541999871828,
+        31.747916000085752
+      ],
+      "server_runs": [
+        {
+          "query_duration_ms": "27",
+          "read_rows": "1048575",
+          "read_bytes": "116942830",
+          "memory_usage": "22586529"
+        },
+        {
+          "query_duration_ms": "30",
+          "read_rows": "1048575",
+          "read_bytes": "116942830",
+          "memory_usage": "22586529"
+        },
+        {
+          "query_duration_ms": "30",
+          "read_rows": "1048575",
+          "read_bytes": "116942830",
+          "memory_usage": "22586529"
+        },
+        {
+          "query_duration_ms": "30",
+          "read_rows": "1048575",
+          "read_bytes": "116942830",
+          "memory_usage": "22586529"
+        },
+        {
+          "query_duration_ms": "30",
+          "read_rows": "1048575",
+          "read_bytes": "116942830",
+          "memory_usage": "22586529"
+        }
+      ]
+    }
+  },
+  "storage": [
+    {
+      "table": "state_max",
+      "rows": "51",
+      "bytes_on_disk": "4464",
+      "compressed_bytes": "4363",
+      "uncompressed_bytes": "5352"
+    },
+    {
+      "table": "transactions",
+      "rows": "1048575",
+      "bytes_on_disk": "85133906",
+      "compressed_bytes": "85108117",
+      "uncompressed_bytes": "549431599"
+    },
+    {
+      "table": "transactions_baseline",
+      "rows": "1048575",
+      "bytes_on_disk": "164190117",
+      "compressed_bytes": "164186637",
+      "uncompressed_bytes": "571728367"
+    }
+  ]
+}
