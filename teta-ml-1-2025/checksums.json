@@ -1,0 +1,17 @@
+{
+  "sample_submition.csv": {
+    "sha256_original": "6d46654b0d0b8fe2df2b5068ebe3ae3999d84efd9c3f252790a413d23209987e",
+    "original_bytes": 2248203,
+    "gzip_bytes": 574602
+  },
+  "test.csv": {
+    "sha256_original": "4129db5d9079f907d9a38aefc170f5e105a650a8273457aaae02a1f735516eac",
+    "original_bytes": 47662750,
+    "gzip_bytes": 17799499
+  },
+  "train.csv": {
+    "sha256_original": "2fd291f0d66cbb1f3c3e442396f3725d4cbde650d5dd0c16322c5230d3776b99",
+    "original_bytes": 144559817,
+    "gzip_bytes": 53552626
+  }
+}
