@@ -109,3 +109,10 @@ DATA_DIR=./data CLICKHOUSE_HTTP_PORT=18123 docker compose -p mlops-hw2-smoke dow
 Тест использует отдельные тома и порт `18123`; результаты — в `hw2/results/smoke/`.
 Для собственных CSV задайте `DATA_DIR=/absolute/path/to/csv` перед командой
 `docker compose run` и передайте имена файлов внутри `/data/`.
+
+## ДЗ №4 — dbt и ClickHouse
+
+Проект dbt находится в [`dbt/`](dbt/). Шесть аналитических витрин, тесты,
+документация, скриншот DAG и команды запуска описаны в [HW4.md](HW4.md).
+Исходный размеченный датасет используется из `teta-ml-1-2025/train.csv.gz`
+без дополнительной копии ДЗ №2.

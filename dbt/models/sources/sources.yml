@@ -1,0 +1,35 @@
+version: 2
+sources:
+  - name: raw
+    schema: transactions_db
+    description: "Размеченные транзакции из train.csv.gz домашней работы по ClickHouse."
+    tables:
+      - name: transactions
+        description: "Одна строка — одна исходная транзакция; время интерпретируется как UTC."
+        columns:
+          - name: transaction_id
+            description: "SHA256 номера строки и исходных полей; различает совпадающие события."
+            data_tests: [not_null, unique]
+          - name: transaction_time
+            description: "Время операции; в исходном CSV часовой пояс отсутствует."
+            data_tests: [not_null]
+          - name: target
+            description: "Истинная метка: 1 — мошенничество, 0 — легальная операция."
+            data_tests:
+              - not_null
+              - accepted_values:
+                  values: [0, 1]
+                  quote: false
+          - name: amount
+            description: "Исходная сумма транзакции в денежных единицах датасета."
+            data_tests: [not_null]
+          - {name: merch, description: "Название мерчанта."}
+          - {name: cat_id, description: "Категория торговой операции."}
+          - {name: name_1, description: "Имя клиента."}
+          - {name: name_2, description: "Фамилия клиента."}
+          - {name: gender, description: "Пол клиента M/F."}
+          - {name: us_state, description: "Почтовый код штата или DC."}
+          - {name: lat, description: "Широта клиента."}
+          - {name: lon, description: "Долгота клиента."}
+          - {name: merchant_lat, description: "Широта мерчанта."}
+          - {name: merchant_lon, description: "Долгота мерчанта."}

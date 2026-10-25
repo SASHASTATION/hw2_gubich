@@ -1,0 +1,32 @@
+{
+  "source": "train.csv.gz",
+  "transactions": 786431,
+  "total_amount": "55239932.49",
+  "frauds": 4504,
+  "marts": {
+    "mart_daily_state_metrics": {
+      "rows": 21480,
+      "totals_match_csv": true
+    },
+    "mart_fraud_by_category": {
+      "rows": 14,
+      "totals_match_csv": true
+    },
+    "mart_fraud_by_state": {
+      "rows": 51,
+      "totals_match_csv": true
+    },
+    "mart_customer_risk_profile": {
+      "rows": 965,
+      "totals_match_csv": true
+    },
+    "mart_hourly_fraud_pattern": {
+      "rows": 168,
+      "totals_match_csv": true
+    },
+    "mart_merchant_analytics": {
+      "rows": 693,
+      "totals_match_csv": true
+    }
+  }
+}

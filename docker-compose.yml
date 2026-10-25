@@ -1,0 +1,20 @@
+name: mlops-hw4
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.3.6.56
+    ports:
+      - "127.0.0.1:${CLICKHOUSE_PORT:-18124}:8123"
+    environment:
+      CLICKHOUSE_USER: dbt
+      CLICKHOUSE_PASSWORD: dbt_local
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: '1'
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./sql/01_source.sql:/docker-entrypoint-initdb.d/01_source.sql:ro
+    healthcheck:
+      test: [CMD, clickhouse-client, --user, dbt, --password, dbt_local, --query, SELECT 1]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+volumes:
+  clickhouse_data:

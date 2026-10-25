@@ -6,3 +6,11 @@ __pycache__/
 hw2/data/*.csv
 !hw2/data/sample.csv
 teta-ml-1-2025/*.csv
+
+# HW4: generated dbt artifacts
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+dbt/.user.yml
+artifacts/docs/
+artifacts/logs/
