@@ -1,0 +1,6 @@
+dbt-core==1.9.11
+dbt-clickhouse==1.9.8
+clickhouse-connect==1.11.0
+sqlfluff==3.4.2
+sqlfluff-templater-dbt==3.4.2
+pre-commit==4.7.0

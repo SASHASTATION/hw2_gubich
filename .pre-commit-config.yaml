@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: sqlfluff-lint
+        name: SQLFluff (ClickHouse + dbt)
+        entry: bash scripts/lint.sh
+        language: system
+        files: ^dbt/(models|tests)/.*\.sql$
+        pass_filenames: false

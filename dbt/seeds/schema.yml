@@ -1,0 +1,14 @@
+version: 2
+seeds:
+- name: states
+  description: Справочник 50 штатов США и округа Колумбия (DC).
+  columns:
+  - name: us_state
+    description: Двухбуквенный почтовый код.
+    data_tests:
+    - not_null
+    - unique
+  - name: state_name
+    description: Полное название.
+    data_tests:
+    - not_null

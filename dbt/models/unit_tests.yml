@@ -1,0 +1,105 @@
+version: 2
+unit_tests:
+- name: staging_normalizes_amount_boundaries_and_calendar
+  description: Проверка 99.99/100/999.99/1000, очистки строк, понедельника и воскресенья.
+  model: stg_transactions
+  given:
+  - input: source('raw', 'transactions')
+    format: sql
+    rows: |
+      select
+          't1' as transaction_id, toDateTime('2024-01-01 00:00:00', 'UTC') as transaction_time,
+          ' shop ' as merch, ' GROCERY_POS ' as cat_id, toFloat64(99.99) as amount,
+          ' Ann ' as name_1, ' Doe ' as name_2, ' f ' as gender, ' ca ' as us_state,
+          toFloat64(40) as lat, toFloat64(-73) as lon,
+          toFloat64(41) as merchant_lat, toFloat64(-74) as merchant_lon, toUInt8(0) as target
+      union all
+      select 't2', toDateTime('2024-01-07 23:00:00', 'UTC'), 'shop', 'grocery_pos',
+          toFloat64(100), 'Ann', 'Doe', 'F', 'CA', toFloat64(40), toFloat64(-73),
+          toFloat64(41), toFloat64(-74), toUInt8(1)
+      union all
+      select 't3', toDateTime('2024-01-08 01:00:00', 'UTC'), 'shop', 'grocery_pos',
+          toFloat64(999.99), 'Ann', 'Doe', 'F', 'CA', toFloat64(40), toFloat64(-73),
+          toFloat64(41), toFloat64(-74), toUInt8(0)
+      union all
+      select 't4', toDateTime('2024-01-08 02:00:00', 'UTC'), 'shop', 'grocery_pos',
+          toFloat64(1000), 'Ann', 'Doe', 'F', 'CA', toFloat64(40), toFloat64(-73),
+          toFloat64(41), toFloat64(-74), toUInt8(1)
+  expect:
+    rows:
+    - transaction_id: t1
+      amount_bucket: SMALL
+      merchant: shop
+      category: grocery_pos
+      gender: F
+      us_state: CA
+      day_of_week: 1
+      transaction_hour: 0
+    - transaction_id: t2
+      amount_bucket: MEDIUM
+      merchant: shop
+      category: grocery_pos
+      gender: F
+      us_state: CA
+      day_of_week: 7
+      transaction_hour: 23
+    - transaction_id: t3
+      amount_bucket: MEDIUM
+      merchant: shop
+      category: grocery_pos
+      gender: F
+      us_state: CA
+      day_of_week: 1
+      transaction_hour: 1
+    - transaction_id: t4
+      amount_bucket: LARGE
+      merchant: shop
+      category: grocery_pos
+      gender: F
+      us_state: CA
+      day_of_week: 1
+      transaction_hour: 2
+- name: customer_risk_exact_percentage_boundaries
+  description: Ровно 0/1/4/5 процентов фрода и корректные агрегаты.
+  model: mart_customer_risk_profile
+  given:
+  - input: ref('stg_transactions')
+    format: sql
+    rows: |
+      select
+          tupleElement(item, 1) as customer_id,
+          toUInt8(number < tupleElement(item, 2)) as is_fraud,
+          toDecimal64('10.00', 2) as amount,
+          toDateTime('2024-01-01 00:00:00', 'UTC') as transaction_time
+      from numbers(100) as n
+      cross join (select arrayJoin([('zero', 0), ('one', 1), ('four', 4), ('five', 5)]) as item) as customers
+  expect:
+    rows:
+    - customer_id: zero
+      transaction_count: 100
+      fraud_count: 0
+      fraud_rate: 0
+      risk_level: LOW
+      total_amount: 1000
+      avg_amount: 10
+    - customer_id: one
+      transaction_count: 100
+      fraud_count: 1
+      fraud_rate: 1
+      risk_level: MEDIUM
+      total_amount: 1000
+      avg_amount: 10
+    - customer_id: four
+      transaction_count: 100
+      fraud_count: 4
+      fraud_rate: 4
+      risk_level: MEDIUM
+      total_amount: 1000
+      avg_amount: 10
+    - customer_id: five
+      transaction_count: 100
+      fraud_count: 5
+      fraud_rate: 5
+      risk_level: HIGH
+      total_amount: 1000
+      avg_amount: 10
